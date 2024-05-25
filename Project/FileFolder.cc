@@ -11,7 +11,7 @@ class Base{
   Base(string _name, int _size = 0) : name(_name), size(_size) {}
   string getName() {return name;}
   int getSize() {return size;}
-  void addSize(int _sz) { size += _sz;}
+  virtual void setSize(int _sz) { size += _sz;}
   virtual void print() = 0;
 };
 
@@ -21,14 +21,16 @@ class Folder : public Base{
   Folder(string _name) : Base(_name) {}
   void add(Base* p){
     v.push_back(p);
-    Base::addSize(p->getSize());
-    addSize(p->getSize());
+    setSize(p->getSize());
   }
-
+  virtual void setSize(int _sz){
+    size += _sz;
+    Base::setSize(size);
+  }
   virtual void print(){
     int sz = v.size();
+    cout << "[" << getName() << "]\n";
     for(int i = 0; i<sz; i++){
-      cout << "[" << v[i]->getName() << "]\n";
       v[i]->print();
     }
   }
